@@ -6,3 +6,109 @@ def fibo(n):
         return 1
     else:
         return fibo(n-2)+fibo(n-1)
+        
+        
+ # Bins
+ def Bins(arr, lst):
+    indices = []
+    for i in lst:
+        if i in arr:
+            indices.append(arr.index(i)+1)
+        else:
+            indices.append(-1)
+    return indices      
+ 
+ 
+ # ins
+ def insertion(lst):
+    swaps = 0
+    for k in range(1, len(lst)):
+        i = k
+        while (i >= 1) and (lst[i] < lst[i-1]):
+            lst[i], lst[i-1] = lst[i-1], lst[i]
+            swaps += 1
+            i -= 1
+    return swaps
+    
+# mer
+def mer(A,B):
+    output = []
+    posA = 0
+    posB = 0
+    while True:
+        if posA <= len(A)-1 and posB <= len(B)-1:
+                if A[posA] == B[posB]:
+                    output.append(A[posA])
+                    output.append(B[posB])
+                    posA += 1
+                    posB += 1
+                elif A[posA] < B[posB]:
+                    output.append(A[posA])
+                    posA += 1
+                else:
+                    output.append(B[posB])
+                    posB += 1
+        elif posA == len(A):
+            output.extend(B[posB:])
+            return output
+        elif posB == len(B):
+            output.extend(A[posA:])
+            return output
+
+### mer with recursive(Rosalind files too big):
+
+def mer(A,B, output = []):
+    if len(output) == len(A) + len(B):
+        return output
+    elif len(A) and len(B) != 1:
+        if A[0] == B[0]:
+            output.append(A[0])
+            output.append(B[0])
+            return mer(A[1:], B[1:], output)
+        elif A[0] < B[0]:
+            output.append(A[0])
+            return mer(A[1:], B, output)
+        elif A[0] > B[0]:
+            output.append(B[0])
+            return mer(A, B[1:], output)
+    else:
+        if len(A) == 1:
+            if A[0] <= B[0]:
+                output.extend(A)
+                output.extend(B)
+                return output
+            else:
+                output.append(B[0])
+                return mer(A, B[1:], output)
+        elif len(B) ==1:
+            if B[0] <= A[0]:
+                output.extend(B)
+                output.extend(A)
+                return output
+            else:
+                output.append(A[0])
+                return mer(A[1:], B, output)
+
+# ms
+
+def ms(lst):
+    a = sorted(lst[len(lst)//2:])
+    b = sorted(lst[:len(lst)//2])
+    return mer(a,b)
+
+
+# par
+
+def par(lst):
+    small, big, eq = [], [], []
+    for i in lst[1:]:
+        if i < lst[0]:
+            small.append(i)
+        elif i > lst[0]:
+            big.append(i)
+        elif i == lst[0]:
+            eq.append(i)
+    small.extend(eq)
+    small.append(lst[0])
+    small.extend(big)
+    return small
