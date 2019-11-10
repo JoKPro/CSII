@@ -89,6 +89,7 @@ def mer(A,B, output = []):
                 output.append(A[0])
                 return mer(A[1:], B, output)
 
+
 # ms
 
 def ms(lst):
@@ -97,7 +98,7 @@ def ms(lst):
     return mer(a,b)
 
 
-# par
+# par # also par3
 
 def par(lst):
     small, big, eq = [], [], []
@@ -112,3 +113,76 @@ def par(lst):
     small.append(lst[0])
     small.extend(big)
     return small
+    
+
+# maj
+
+def maj(lsts):
+    output = []
+    for lst in lsts:
+        state = 1
+        intermediate = []
+        while state == 1:
+            for num in lst:
+                if lst.count(num) > len(lst)//2 and state == True :
+                    intermediate.append(num)
+                    output.append(num)
+                    state = 0
+            if len(intermediate) == 0 and state == True:
+                output.append(-1)
+                state = 0
+    return output
+
+
+# 2sum
+
+def twosum(lists):
+    tot = []
+    for lst in lists:
+        output = []
+        i = 0
+        while i <= len(lst)-1:
+            if (-lst[i]) in lst:
+                if lst[i] == 0:
+                    x = lst.index(lst[i])
+                    if 0 in lst[x+1:]:
+                        ind = lst.index(0)
+                        output.append(lst.index(lst[i])+1)
+                        output.append(lst[ind+1:].index(0) + ind +2)
+                        tot.append(output)
+                        i = len(lst)
+                    else:
+                        i += 1
+                else:
+                    output.append(lst.index(lst[i])+1)
+                    output.append(lst.index(-lst[i])+1)
+                    tot.append(output)
+                    i = len(lst)
+            else:
+                i += 1
+        if len(output) == 0:
+            tot.append([-1])
+            
+    return tot
+
+
+# med
+
+def med(lst, k):
+    Sl, v, Sr = [], [], []
+    for i in lst[1:]:
+        if i < lst[0]:
+            Sl.append(i)
+        elif i > lst[0]:
+            Sr.append(i)
+        elif i == lst[0]:
+            v.append(i)
+    v.append(lst[0])
+    
+    
+    if len(Sl) < k and k <= (len(Sl) + len(v)):
+        return v[0]
+    elif k <= len(Sl):
+        return med(Sl, k)
+    elif k > len(Sl) + len(v):
+        return med(Sr,k-len(Sl)-len(v))
