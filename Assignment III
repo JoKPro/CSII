@@ -98,7 +98,7 @@ def ms(lst):
     return mer(a,b)
 
 
-# par # also par3
+# par ######### and par3
 
 def par(lst):
     small, big, eq = [], [], []
@@ -166,6 +166,17 @@ def twosum(lists):
     return tot
 
 
+# inv
+
+def simpleinv(lst): 
+    inversions = 0
+    for bignum in range(len(lst)): 
+        for smallnum in range(bignum + 1, len(lst)): 
+            if lst[bignum] > lst[smallnum]: 
+                inversions += 1
+    return inversions
+
+
 # med
 
 def med(lst, k):
@@ -186,3 +197,29 @@ def med(lst, k):
         return med(Sl, k)
     elif k > len(Sl) + len(v):
         return med(Sr,k-len(Sl)-len(v))
+
+
+# 3sum
+
+def threesum1(lst1):
+    output = []
+    lst = sorted(lst1) # with e.g. previously used insertionsort
+    for num in range(len(lst)-2):
+        number = lst[num]
+        left = num + 1
+        right = len(lst)-1
+        
+        while left < right:
+            leftnum = lst[left]
+            rightnum = lst[right]
+            if leftnum + rightnum + number == 0:
+                output.append(lst1.index(lst1[num])+1)
+                output.append(lst1.index(lst1[left])+1)
+                output.append(lst1.index(lst1[right])+1)
+                return output
+            elif number + leftnum + rightnum > 0:
+                right -= 1
+            else:
+                left += 1
+    output.append(-1)
+    return output
