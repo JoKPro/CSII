@@ -1,0 +1,31 @@
+### DNA
+### Counting DNA Nucleotides
+def nuccount(s):
+    counts = []
+    counts.append(str(s.count("A")))
+    counts.append(str(s.count("C")))
+    counts.append(str(s.count("G")))
+    counts.append(str(s.count("T")))
+    return " ".join(counts)
+
+
+### RNA
+### Transcribing DNA into RNA
+def RNA(s):
+    return s.replace("T", "U")
+
+
+### REVC
+### Complementing a Strand of DNA
+def reverseComplement(s):
+    s = list(s[::-1])
+    print (s)
+    for base in range(len(s)):
+        if s[base] == "A": s[base] = "T"
+        elif s[base] == "T": s[base] = "A"    
+        elif s[base] == "C": s[base] = "G" 
+        elif s[base] == "G": s[base] = "C"                 
+    return "".join(s)
+    
+    
+    
