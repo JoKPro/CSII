@@ -26,6 +26,46 @@ def reverseComplement(s):
         elif s[base] == "C": s[base] = "G" 
         elif s[base] == "G": s[base] = "C"                 
     return "".join(s)
+
+
+### GC
+### Computing GC content
+def gc(filename):
+    output = []
+    fasta = {}
+    with open("C:/Users/Klumpi/Desktop/"+ filename +".txt", "r") as file:
+        lines = file.readlines()
+        fastdict = {}
+        fastacodes = []
+        codes = []
+        codeslength = len(codes)
+        code_indices = [i for i, x in enumerate(lines) if ">" in x]
+        for line in lines:
+            if line.startswith(">"):
+                fastacodes.append(line[:-1])
+            else:
+                codes.append(line[:-1])
+        for index in range(len(code_indices)):
+            if code_indices[index] != code_indices[-1]:
+                length = abs(code_indices[index]-code_indices[index+1])-1
+                code = "".join(codes[:length])
+                codes = codes[length:]
+                Gcount = code.count("G")
+                Ccount = code.count("C")
+                value = (Gcount + Ccount)/len(code)
+                fastdict[value] = fastacodes[index]
+            else:
+                code = "".join(codes)
+                Gcount = code.count("G")
+                Ccount = code.count("C")
+                value = (Gcount + Ccount)/len(code)
+                fastdict[value] = fastacodes[index]
+        x = sorted(fastdict, reverse = True)
+        
+        output.append(fastdict[x[0]][1:])
+        output.append(x[0]*100)
+        return output
+       
     
     
     
