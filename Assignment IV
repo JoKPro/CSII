@@ -65,6 +65,70 @@ def gc(filename):
         output.append(fastdict[x[0]][1:])
         output.append(x[0]*100)
         return output
+
+
+### hamm
+### counting point mutations
+
+def hamm(filename):
+    count = 0
+    with open("C:/Users/Klumpi/Desktop/"+ filename +".txt", "r") as file:
+        lines = file.readlines()
+        code1 = lines[0]
+        code2 = lines[1]
+        for base in range(len(code1)):
+            if code1[base] != code2[base]:
+                count += 1
+    return count
+
+
+### prot
+### translating rna into protein
+
+1.) creating codict (Codon dictionary):
+with open("C:/Users/Klumpi/Desktop/Codon_Table.txt", "r") as file:
+    filelist = file.read().split()
+    codict = {}
+    for codon in range(0, len(filelist), 2):
+        codict[filelist[codon]] = filelist[codon+1]
+    print (codict)
+    file.close()
+
+2.) prot function
+def prot(filename, codict = codict):
+    with open("C:/Users/Klumpi/Desktop/"+ filename +".txt", "r") as file:
+        string = file.read()[:-1]
+        protein = ""
+        for codon in range(0, len(filelist), 2):
+            codict[filelist[codon]] = filelist[codon+1]
+        for codon in range(2, len(string), 3):
+            if codict[string[codon-2] + string[codon-1] + string[codon]] != "Stop":
+                protein += codict[string[codon-2] + string[codon-1] + string[codon]]
+            else:
+                return protein
+
+### subs
+### finding a motif in DNA
+def subs(filename):
+    with open("C:/Users/Klumpi/Desktop/"+ filename +".txt", "r") as file:
+        lines = file.read().split()
+        code =  lines[0]
+        substring = lines[1]
+        file.close()
+        indices = []
+        while code.find(substring) != -1:
+            index = code.find(substring)+1
+            indices.append(index)
+            code = code[index:]
+        print (indices)
+        
+        for index in range(len(indices)-1):
+            indices[index+1] += indices[index]
+        return indices
+ 
+                
+                
+        
        
     
     
