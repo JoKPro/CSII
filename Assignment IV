@@ -125,6 +125,54 @@ def subs(filename):
         for index in range(len(indices)-1):
             indices[index+1] += indices[index]
         return indices
+
+
+### splc
+### RNA splicing
+
+1) for input:
+def fasta_codes_input(filename):
+    with open("C:/Users/Klumpi/Desktop/"+ filename +".txt", "r") as file:
+        lines = file.read().split()
+        index = 1
+        fasta = lines[0]
+        codes_dict = {}
+        code_list = []
+        
+        while index < len(lines):
+            if index == len(lines) - 1:
+                code_list.append(lines[index])
+                codes_dict[fasta] = "".join(code_list)
+                return codes_dict
+                
+            if ">" not in lines[index]:
+                code_list.append(lines[index])
+                index += 1
+
+            else:
+                codes_dict[fasta] = "".join(code_list)
+                fasta = lines[index]
+                code_list = []
+                index += 1
+
+2) splc function
+def splc(filename):
+    dicty = fasta_codes_input(filename)
+    codons = codict()
+    main_code = list(dicty.values())[0]
+    introns = list(dicty.values())[1:]   
+    for intron in introns:
+        if intron in main_code:
+            main_code = main_code.replace(intron, "")
+    main_code = RNA(main_code)
+    protein = ""
+    for codon in range(2, len(main_code), 3):
+        if codons[main_code[codon-2] + main_code[codon-1] + main_code[codon]] != "Stop":
+            protein += codons[main_code[codon-2] + main_code[codon-1] + main_code[codon]]
+        else:
+            break
+    return protein
+       
  
                 
                 
