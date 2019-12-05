@@ -1,0 +1,47 @@
+### SSEQ
+### Finding a Spliced Motif
+1)
+def recSSEQ(code, sub,l, indices = []):
+    
+    if len(sub) == 1:
+        for base in range(len(code)):
+            if code[base] == sub[0]:
+                indices.append(base + 1 + (l - len(code)))
+                return indices
+    else:
+        for base in range(len(code)):
+            if code[base] == sub[0]:
+                indices.append(base + 1 + (l - len(code)))
+                code = code[base + 1:]
+                sub = sub[1:]
+                return recSSEQ(code, sub,l, indices)
+
+2)
+def SSEQ(filename):
+    codes = list(fasta_codes_input(filename).values())
+    String = codes[0]
+    length = len(String)
+    substring = codes[1]
+    output = recSSEQ(String, substring, length)
+    return output
+
+
+### GRPH
+### Overlap Graphs
+
+def directedGraph(filename):
+    from itertools import permutations
+    
+    dicty = fasta_codes_input(filename)
+    tuples = []
+    
+   
+    combs = list(permutations(dicty,2))
+    for comb in combs:
+        if dicty[comb[0]][-3:] == dicty[comb[1]][:3]:
+            tuples.append(comb)
+    return tuples        
+
+for tupl in directedGraph("grph"):
+    print(*tupl)
+            
