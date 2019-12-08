@@ -44,4 +44,78 @@ def directedGraph(filename):
 
 for tupl in directedGraph("grph"):
     print(*tupl)
+
+
+### TRAN
+### Transitions and Transversions
+
+def tran(filename):
+    dicty = fasta_codes_input(filename)
+    codes = list(dicty.values())
+    s1 = codes[0]
+    print (s1)
+    s2 = codes[1]
+    print (s2)
+    pur = ["A","G"]
+    pyr = ["C", "T"]
+    transversions = 0
+    transitions = 0
+    for base in range(len(s1)):
+        if s1[base] != s2[base]:
+            if s1[base] == "A":
+                if s2[base] in pur:
+                    transitions += 1
+                elif s2[base] in pyr:
+                    transversions += 1
+            elif s1[base] == "G":
+                if s2[base] in pur:
+                    transitions += 1
+                elif s2[base] in pyr:
+                    transversions += 1
+            elif s1[base] == "C":
+                if s2[base] in pur:
+                    transversions += 1
+                elif s2[base] in pyr:
+                    transitions += 1
+            elif s1[base] == "T":
+                if s2[base] in pur:
+                    transversions += 1
+                elif s2[base] in pyr:
+                    transitions += 1 
+    return transitions/transversions
+
+
+### ORF
+### Open Reading Frames
+
+def ORF(filename):
+    import re
+    with open("C:/Users/Klumpi/Desktop/"+ filename +".txt", "r") as file:
+        lines = file.read().splitlines()
+        code = "".join(lines[1:])
+        rc = reverseComplement(code).replace("T", "U")
+        code = code.replace("T", "U")
+        codeORFs = re.findall("(?=((AUG)(...)*?(?=(UGA|UAA|UAG))))", code)
+        rcORFs = re.findall("(?=((AUG)(...)*?(?=(UGA|UAA|UAG))))", rc)
+        proteins = set()
+        
+        for i in codeORFs:
+            Seq = i[0]
+            protein = ""
+            count = 2
+            while count <= len(Seq):
+                cod = Seq[count-2] + Seq[count - 1] + Seq[count]
+                protein += Codict[cod]
+                count += 3
+            proteins.add(protein)
+        for i in rcORFs:
+            Seq = i[0]
+            protein = ""
+            count = 2
+            while count <= len(Seq):
+                cod = Seq[count-2] + Seq[count - 1] + Seq[count]
+                protein += Codict[cod]
+                count += 3
+            proteins.add(protein)
+        return(proteins)
             
