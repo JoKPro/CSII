@@ -118,4 +118,30 @@ def ORF(filename):
                 count += 3
             proteins.add(protein)
         return(proteins)
-            
+
+
+### TREE
+### Completing a Tree
+1) 
+def read(filename, n):
+    output = []
+    with open("C:/Users/Klumpi/Desktop/"+ filename +".txt", "r") as file:
+        f = file.read().splitlines()
+        edges = []
+        nodes = []
+        for i in f:
+            nodes.extend(list(map(int, i.split(" "))))
+            edges.append(tuple(map(int, i.split(" "))))
+        nodes = set(nodes)
+        output.append(edges)
+        if len(nodes) < n:
+            lones = n - len(nodes)
+        output.append(lones)
+    return output
+
+2)
+def tree(edges, lones):
+    for i in edges:
+        print (i)
+        G.add_edge(str(i[0]), str(i[1]))
+    return (nx.number_connected_components(G) + lones -1)
