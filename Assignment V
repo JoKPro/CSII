@@ -145,3 +145,35 @@ def tree(edges, lones):
         print (i)
         G.add_edge(str(i[0]), str(i[1]))
     return (nx.number_connected_components(G) + lones -1)
+
+
+### INOD
+### Counting Phylogenetic Ancestors
+
+def inod(n):
+    internal_nodes = n-2
+    return internal_nodes
+
+
+### PDST
+### Creating a Distance Matrix
+
+def pdis(A, B):
+    if A == B: return 0.0000
+    else:
+        count = 0
+        for i in range(len(A)):
+            if A[i] != B[i]:
+                count += 1
+        return count/len(A)
+
+def pdst(filename):
+    stringdict = fasta_codes_input(filename)
+    n = len(stringdict)
+    strings = list(stringdict.values())
+    dmat = [[0 for x in range(n)] for y in range(n)]
+    for i in range(len(strings)):
+        for j in range(len(strings)):
+            dmat[i][j] = '%.5f' %(pdis(strings[i], strings[j]))
+    return dmat
+    
