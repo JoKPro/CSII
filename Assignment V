@@ -176,4 +176,48 @@ def pdst(filename):
         for j in range(len(strings)):
             dmat[i][j] = '%.5f' %(pdis(strings[i], strings[j]))
     return dmat
+ 
+ 
+ ### LCSQ
+ ### Finding a Shared Spliced Motif 
+ 
+ def dlcs(A, B, matrix):
+    for i in range(1,len(A)+1):
+        for j in range(1,len(B)+1):
+            if j == len(B)+1:
+                break
+            else:
+                if A[i-1] == B[j-1]:
+                    matrix[i][j] = (1 + matrix[i-1][j-1]) #matrix[i-1][j], matrix[i][j-1])
+                else:
+                    matrix[i][j] = max(matrix[i-1][j], matrix[i][j-1]) # matrix[i-1][j-1]
+    i = len(A)
+    j = len(B)
+    seq = ""
+    counter_ifs = 0
+    counter_elses = 0
+    while i > 0 and j > 0:
+        up = matrix[i-1][j]
+        left = matrix[i][j-1]
+        diag = matrix[i-1][j-1]
+        pos = matrix[i][j]
+        if pos > up and pos > left:
+            if A[i-1] == B[j-1]:
+                seq += A[i-1]
+            i -= 1
+            j -= 1
+        elif up > left:
+            i -= 1
+        else:
+            j -= 1
+    return (seq[::-1])
     
+seqs = list(fasta_codes_input("lcsq").values())
+A = seqs[0]
+B = seqs[1]
+mat = []
+for row in range(len(A)+1):
+    tmp = []
+    for col in range(len(B)+1):
+        tmp.append(0)
+    mat.append(tmp)    
