@@ -1,3 +1,39 @@
+### Dictionary of Codons and AAs
+def codict():
+    with open("C:/Users/Klumpi/Desktop/Codon_Table.txt", "r") as file:
+        filelist = file.read().split()
+        codict = {}
+        for codon in range(0, len(filelist), 2):
+            codict[filelist[codon]] = filelist[codon+1]
+        return (codict)
+        file.close()
+
+### Input function for many FASTA codes
+def fasta_codes_input(filename):
+    with open("C:/Users/Klumpi/Desktop/"+ filename +".txt", "r") as file:
+        lines = file.read().split()
+        index = 1
+        fasta = lines[0]
+        codes_dict = {}
+        code_list = []
+        
+        while index < len(lines):
+            if index == len(lines) - 1:
+                code_list.append(lines[index])
+                codes_dict[fasta] = "".join(code_list)
+                return codes_dict
+                
+            if ">" not in lines[index]:
+                code_list.append(lines[index])
+                index += 1
+
+            else:
+                codes_dict[fasta] = "".join(code_list)
+                fasta = lines[index]
+                code_list = []
+                index += 1
+    
+
 ### SSEQ
 ### Finding a Spliced Motif
 1)
@@ -221,3 +257,62 @@ for row in range(len(A)+1):
     for col in range(len(B)+1):
         tmp.append(0)
     mat.append(tmp)    
+
+
+### HAMM
+###
+def hamm(filename):
+    count = 0
+    with open("C:/Users/Klumpi/Desktop/"+ filename +".txt", "r") as file:
+        lines = file.readlines()
+        code1 = lines[0]
+        code2 = lines[1]
+        for base in range(len(code1)):
+            if code1[base] != code2[base]:
+                count += 1
+    return count
+
+
+### PERM
+###
+def perm(n):
+    output = []
+    from itertools import permutations
+    List = list(range(1, n+1))
+    perm = permutations(List)
+    for i in list(perm):
+        output.append(list(i))
+    return output  
+
+def prot(filename, codict = codict):
+    with open("C:/Users/Klumpi/Desktop/"+ filename +".txt", "r") as file:
+        string = file.read()[:-1]
+        protein = ""
+        for codon in range(0, len(filelist), 2):
+            codict[filelist[codon]] = filelist[codon+1]
+        for codon in range(2, len(string), 3):
+            if codict[string[codon-2] + string[codon-1] + string[codon]] != "Stop":
+                protein += codict[string[codon-2] + string[codon-1] + string[codon]]
+            else:
+                return protein   
+
+
+### SPLC
+###
+def splc(filename):
+    dicty = fasta_codes_input(filename)
+    codons = codict()
+    main_code = list(dicty.values())[0]
+    introns = list(dicty.values())[1:]   
+    for intron in introns:
+        if intron in main_code:
+            main_code = main_code.replace(intron, "")
+    main_code = RNA(main_code)
+    protein = ""
+    for codon in range(2, len(main_code), 3):
+        if codons[main_code[codon-2] + main_code[codon-1] + main_code[codon]] != "Stop":
+            protein += codons[main_code[codon-2] + main_code[codon-1] + main_code[codon]]
+        else:
+            break
+    return protein
+    
